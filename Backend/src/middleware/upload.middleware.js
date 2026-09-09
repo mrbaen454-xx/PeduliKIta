@@ -1,15 +1,19 @@
 const multer = require('multer');
-const path = require('path');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../config/cloudinary');
 const { errorResponse } = require('../utils/response');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    const isPdf = file.mimetype === 'application/pdf';
+    return {
+      folder: 'pedulikita',
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf'],
+      resource_type: isPdf ? 'raw' : 'image',
+      public_id: `${Date.now()}-${Math.round(Math.random() * 1e9)}`,
+    };
   },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
 });
 
 const fileFilter = (req, file, cb) => {
@@ -24,7 +28,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter
+  fileFilter,
 });
 
 const handleUploadError = (err, req, res, next) => {

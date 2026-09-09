@@ -3,7 +3,7 @@ const { successResponse, errorResponse } = require('../utils/response');
 
 const create = async (req, res) => {
   try {
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? req.file.path : null;
     const update = await updateService.createUpdate(req.params.campaignId, req.user.id, req.body, imageUrl);
     return successResponse(res, 'Berhasil membuat update campaign', update, 201);
   } catch (error) {
@@ -22,7 +22,7 @@ const getByCampaign = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? req.file.path : null;
     const result = await updateService.updateCampaignUpdate(req.params.id, req.user.id, req.body, imageUrl);
     return successResponse(res, 'Berhasil mengubah update', result);
   } catch (error) {

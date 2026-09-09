@@ -6,7 +6,7 @@ const create = async (req, res) => {
     if (!req.file) {
       return errorResponse(res, 'Bukti transfer wajib diunggah', null, 400);
     }
-    const proofUrl = `/uploads/${req.file.filename}`;
+    const proofUrl = req.file.path;
     const donation = await donationService.createDonation(req.user.id, req.body, proofUrl);
     return successResponse(res, 'Berhasil membuat donasi, menunggu verifikasi', donation, 201);
   } catch (error) {

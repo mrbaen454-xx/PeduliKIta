@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(cors({ origin: env.FRONTEND_URL || '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('uploads'));
+app.set('trust proxy', 1);
 
 // Global Rate Limiting
 const globalLimiter = rateLimit({

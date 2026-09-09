@@ -7,7 +7,7 @@ const upload = async (req, res) => {
       return errorResponse(res, 'File dokumen wajib diunggah', null, 400);
     }
     const fileName = req.file.originalname;
-    const fileUrl = `/uploads/${req.file.filename}`;
+    const fileUrl = req.file.path;
     const fileType = req.file.mimetype;
 
     const document = await documentService.uploadDocument(req.params.campaignId, req.user.id, fileName, fileUrl, fileType);
