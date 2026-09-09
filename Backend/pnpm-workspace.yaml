@@ -1,7 +1,0 @@
-allowBuilds:
-  '@prisma/client': true
-  '@prisma/engines': true
-  bcrypt: true
-  prisma: true
-minimumReleaseAgeExclude:
-  - joi@18.2.7
