@@ -2,14 +2,7 @@ const jwt = require('jsonwebtoken');
 const env = require('../config/environment');
 
 const generateToken = (payload) => {
-  let expiresIn = env.JWT_EXPIRES_IN;
-  if (typeof expiresIn === 'string') {
-    expiresIn = expiresIn.replace(/['"]/g, '').trim();
-  }
-  if (!expiresIn) {
-    expiresIn = '1d';
-  }
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn });
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: '1d' });
 };
 
 const verifyToken = (token) => {

@@ -23,7 +23,7 @@ const login = async (req, res) => {
     if (error.message === 'Email atau password salah' || error.message === 'Akun tidak aktif') {
       return errorResponse(res, error.message, null, 401);
     }
-    return errorResponse(res, error.message || 'Internal Server Error', null, 500);
+    return errorResponse(res, 'SERVER UPDATE: ' + (error.message || 'Internal Server Error'), null, 500);
   }
 };
 
