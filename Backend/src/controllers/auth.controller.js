@@ -19,7 +19,11 @@ const login = async (req, res) => {
     const data = await authService.loginUser(email, password);
     return successResponse(res, 'Login berhasil', data, 200);
   } catch (error) {
-    return errorResponse(res, error.message, null, 401);
+    console.error('[Login Error]:', error);
+    if (error.message === 'Email atau password salah' || error.message === 'Akun tidak aktif') {
+      return errorResponse(res, error.message, null, 401);
+    }
+    return errorResponse(res, error.message || 'Internal Server Error', null, 500);
   }
 };
 
