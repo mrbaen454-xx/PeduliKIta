@@ -88,7 +88,7 @@ async function main() {
       collected_amount: 152400000,
       start_date: new Date('2025-02-15T00:00:00Z'),
       end_date: new Date(new Date().setDate(new Date().getDate() + 14)),
-      image_url: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/dTlpkYb.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -101,7 +101,7 @@ async function main() {
       collected_amount: 38200000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 19)),
-      image_url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/WxDeCq1.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -114,7 +114,7 @@ async function main() {
       collected_amount: 15000000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
-      image_url: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/0ddeqzl.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -127,7 +127,7 @@ async function main() {
       collected_amount: 46800000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 60)),
-      image_url: 'https://images.unsplash.com/photo-1541888087425-eb81fd62370d?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/c4GTK1v.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -140,7 +140,7 @@ async function main() {
       collected_amount: 28750000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 45)),
-      image_url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/5spwj8D.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -153,7 +153,7 @@ async function main() {
       collected_amount: 22100000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 25)),
-      image_url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/JnYE7Tf.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -166,7 +166,7 @@ async function main() {
       collected_amount: 5500000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 10)),
-      image_url: 'https://images.unsplash.com/photo-1520697926227-d0d463ef1cd8?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/dacmN39.jpeg',
       status: 'ACTIVE'
     },
     {
@@ -179,7 +179,7 @@ async function main() {
       collected_amount: 80500000,
       start_date: new Date(),
       end_date: new Date(new Date().setDate(new Date().getDate() + 50)),
-      image_url: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/2MCDtIc.jpeg',
       status: 'ACTIVE'
     },
 
@@ -194,7 +194,7 @@ async function main() {
       collected_amount: 0,
       start_date: null,
       end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
-      image_url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/PEKcRpD.jpeg',
       status: 'PENDING'
     },
     {
@@ -207,7 +207,7 @@ async function main() {
       collected_amount: 0,
       start_date: null,
       end_date: new Date(new Date().setDate(new Date().getDate() + 60)),
-      image_url: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/hv1UpG6.jpeg',
       status: 'REJECTED',
       rejection_reason: 'Rincian RAB tidak dilampirkan, mohon perjelas struktur biaya operasional alat pertaniannya.'
     },
@@ -223,7 +223,7 @@ async function main() {
       collected_amount: 102500000,
       start_date: new Date(new Date().setMonth(new Date().getMonth() - 3)),
       end_date: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-      image_url: 'https://images.unsplash.com/photo-1617870952058-2ac91054b1f6?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/Ve3hOsv.jpeg',
       status: 'COMPLETED'
     },
     {
@@ -236,7 +236,7 @@ async function main() {
       collected_amount: 5000000,
       start_date: new Date(new Date().setMonth(new Date().getMonth() - 2)),
       end_date: new Date(),
-      image_url: 'https://images.unsplash.com/photo-1551609189-eba71b3a8566?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://i.imgur.com/FfSvZrC.jpeg',
       status: 'CLOSED'
     }
   ];

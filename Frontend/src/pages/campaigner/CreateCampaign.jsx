@@ -24,7 +24,7 @@ const CreateCampaign = () => {
 
   return (
     <div className="w-full mx-auto min-h-screen">
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-[var(--color-primary)]/20 p-6 md:p-8">
+      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-primary/20 p-6 md:p-8">
         <div className="mb-8">
         <h1 className="text-headline-sm font-bold text-on-surface">Buat Kampanye Baru</h1>
         <p className="text-on-surface-variant mt-1 text-sm">Isi detail penggalangan dana Anda dengan transparan.</p>

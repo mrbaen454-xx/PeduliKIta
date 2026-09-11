@@ -111,12 +111,12 @@ const DonationFormPage = () => {
     data.append('amount', formData.amount);
     data.append('message', formData.message);
     data.append('isAnonymous', formData.isAnonymous);
-    data.append('proofImage', proofFile);
+    data.append('proof', proofFile);
 
     try {
       await donationService.createDonation(data);
       showToast('Donasi berhasil dikirim dan menunggu verifikasi admin!', 'success');
-      navigate(user.role === 'DONOR' ? '/donor/donations' : '/');
+      navigate(user.role === 'DONOR' ? '/donor/dashboard' : '/');
     } catch (err) {
       setSubmitError(err.response?.data?.message || 'Gagal mengirim donasi.');
       showToast(err.response?.data?.message || 'Gagal mengirim donasi.', 'error');
@@ -200,16 +200,16 @@ const DonationFormPage = () => {
                 <span className="text-xs font-bold tracking-wider text-outline uppercase">Dana Terkumpul</span>
                 <span className="text-xs font-bold text-primary">{Math.round(progress)}% Tercapai</span>
               </div>
-              <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-stat-lg font-bold text-primary">{formatCurrency(campaign.collected_amount)}</span>
-                <span className="text-[13px] font-medium text-outline">/ {formatCurrency(campaign.target_amount)}</span>
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-4">
+                <span className="text-stat-lg font-bold text-primary break-words">{formatCurrency(campaign.collected_amount)}</span>
+                <span className="text-[13px] font-medium text-outline break-words">/ {formatCurrency(campaign.target_amount)}</span>
               </div>
               
               <div className="w-full bg-surface-container rounded-full h-2.5 mb-4 overflow-hidden">
                 <div className="bg-primary h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${progress}%` }}></div>
               </div>
               
-              <div className="flex justify-between items-center text-xs font-medium mb-6">
+              <div className="flex flex-wrap justify-between items-center gap-2 text-xs font-medium mb-6">
                 <span className="text-on-surface-variant">Sisa Target: <strong className="text-on-surface">{formatCurrency(remaining)}</strong></span>
                 {daysRemaining > 0 && (
                   <span className="flex items-center gap-1 text-on-surface-variant">
@@ -235,24 +235,24 @@ const DonationFormPage = () => {
               </p>
               
               <div className="space-y-3">
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex justify-between items-center">
+                <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                   <div>
                     <p className="text-xs font-bold text-outline uppercase tracking-wider mb-1">BCA (Bank Central Asia)</p>
                     <p className="text-stat-md font-bold text-on-surface tracking-widest mb-1">8420 891 002</p>
                     <p className="text-xs text-on-surface-variant">a.n. Yayasan PeduliKita Indonesia</p>
                   </div>
-                  <button onClick={() => copyToClipboard('8420891002')} className="px-3 py-1.5 bg-surface-container-low text-primary border border-outline-variant rounded text-xs font-bold hover:bg-surface-container transition-colors flex items-center gap-1.5">
+                  <button type="button" onClick={() => copyToClipboard('8420891002')} className="w-full sm:w-auto px-3 py-2 sm:py-1.5 bg-surface-container-low text-primary border border-outline-variant rounded text-xs font-bold hover:bg-surface-container transition-colors flex items-center justify-center gap-1.5">
                     <Copy className="w-3.5 h-3.5" /> Salin
                   </button>
                 </div>
                 
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex justify-between items-center">
+                <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                   <div>
                     <p className="text-xs font-bold text-outline uppercase tracking-wider mb-1">Bank Mandiri</p>
                     <p className="text-stat-md font-bold text-on-surface tracking-widest mb-1">137 00 9923 1184</p>
                     <p className="text-xs text-on-surface-variant">a.n. Yayasan PeduliKita Indonesia</p>
                   </div>
-                  <button onClick={() => copyToClipboard('1370099231184')} className="px-3 py-1.5 bg-surface-container-low text-primary border border-outline-variant rounded text-xs font-bold hover:bg-surface-container transition-colors flex items-center gap-1.5">
+                  <button type="button" onClick={() => copyToClipboard('1370099231184')} className="w-full sm:w-auto px-3 py-2 sm:py-1.5 bg-surface-container-low text-primary border border-outline-variant rounded text-xs font-bold hover:bg-surface-container transition-colors flex items-center justify-center gap-1.5">
                     <Copy className="w-3.5 h-3.5" /> Salin
                   </button>
                 </div>
@@ -409,7 +409,7 @@ const DonationFormPage = () => {
                 PeduliKita menerapkan audit manual ketat guna memastikan pertanggungjawaban dana publik 100% tepat sasaran:
               </p>
               
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
                   <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center mb-3">1</div>
                   <h4 className="font-bold text-xs text-on-surface mb-2">Unggah Bukti</h4>

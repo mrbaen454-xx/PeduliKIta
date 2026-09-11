@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../common/Input';
+import ModernSelect from '../common/ModernSelect';
 import categoryService from '../../services/categoryService';
 import { ImagePlus } from 'lucide-react';
 
@@ -67,7 +68,7 @@ const CampaignForm = ({ initialData, onSubmit, loading, buttonText }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-5">
           <Input
             label="Judul Kampanye"
@@ -83,18 +84,13 @@ const CampaignForm = ({ initialData, onSubmit, loading, buttonText }) => {
             <label className="block text-sm font-bold text-on-surface mb-1">
               Kategori
             </label>
-            <select
+            <ModernSelect
               name="categoryId"
               value={formData.categoryId}
               onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-outline-variant rounded focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-colors text-on-surface text-sm bg-surface-container-lowest"
-            >
-              <option value="" disabled>Pilih Kategori</option>
-              {categories.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+              placeholder="Pilih Kategori"
+              options={categories.map(c => ({ value: c.id, label: c.name }))}
+            />
           </div>
 
           <Input

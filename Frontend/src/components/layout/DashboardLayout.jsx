@@ -1,12 +1,15 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { LayoutDashboard, Megaphone, PlusCircle, LogOut, CheckSquare, Tags, Users } from 'lucide-react';
+import { LayoutDashboard, Megaphone, PlusCircle, LogOut, CheckSquare, Tags, Users, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const getSidebarLinks = () => {
     if (!user) return [];
@@ -34,16 +37,17 @@ const DashboardLayout = () => {
   };
 
   const links = getSidebarLinks();
+  const activeLink = links.find(l => l.path === location.pathname) || links[0];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-surface)]">
+    <div className="flex flex-col min-h-screen bg-surface">
       <Navbar />
-      <div className="flex flex-row flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex flex-col md:flex-row flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         {user?.role !== 'DONOR' && (
           <aside className="hidden md:block w-64 flex-shrink-0">
-            <div className="bg-[var(--color-surface-container)]/70 backdrop-blur-2xl rounded-xl shadow-[0_20px_50px_rgba(0,107,44,0.12)] border border-[var(--color-primary)]/20 p-4 sticky top-28">
-            <div className="pb-4 mb-4 border-b border-[var(--color-outline-variant)]/30">
+            <div className="bg-surface-container/70 backdrop-blur-2xl rounded-xl shadow-[0_20px_50px_rgba(0,107,44,0.12)] border border-primary/20 p-4 sticky top-28">
+            <div className="pb-4 mb-4 border-b border-outline-variant/30">
               <h2 className="text-lg font-bold text-gray-900">{user?.name}</h2>
               <p className="text-sm text-gray-500">{user?.role === 'CAMPAIGNER' ? 'Penggalang Dana' : user?.role}</p>
             </div>
@@ -72,32 +76,45 @@ const DashboardLayout = () => {
 
         {/* Mobile Navigation */}
         {user?.role !== 'DONOR' && (
-        <div className="md:hidden w-full mb-6 overflow-x-auto pb-2 scrollbar-hide">
-          <div className="flex gap-2 min-w-max">
-            {links.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.path}
-                end={link.path === '/campaigner/campaigns'}
-                className={({ isActive }) =>
-                  `flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap text-sm transition-colors ${
-                    isActive 
-                      ? 'bg-[var(--color-primary)] text-white font-medium shadow-md shadow-primary/20' 
-                      : 'bg-surface-container-lowest text-gray-600 border border-[var(--color-primary)]'
-                  }`
-                }
-              >
-                {link.icon}
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
+        <div className="md:hidden w-full mb-6 relative">
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="w-full p-3 bg-surface-container-lowest border border-primary text-inverse-surface rounded-xl font-bold shadow-sm flex justify-between items-center"
+          >
+            <div className="flex items-center gap-2">
+              {activeLink?.icon}
+              {activeLink?.name}
+            </div>
+            <ChevronDown size={20} className={`transition-transform ${isMobileMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+          
+          {isMobileMenuOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-surface-container-lowest border border-primary/20 rounded-xl shadow-lg z-50 overflow-hidden">
+              {links.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => {
+                    navigate(link.path);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${
+                    location.pathname === link.path 
+                      ? 'bg-primary/10 text-primary font-bold' 
+                      : 'text-on-surface-variant hover:bg-surface-container hover:text-inverse-surface font-medium'
+                  }`}
+                >
+                  {link.icon}
+                  {link.name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         )}
 
         {/* Main Content */}
         <main className={`flex-1 w-full ${user?.role !== 'DONOR' ? 'md:ml-8' : ''}`}>
-          <div className="bg-[var(--color-surface-container)]/70 backdrop-blur-2xl rounded-xl shadow-[0_20px_50px_rgba(0,107,44,0.12)] border border-[var(--color-primary)]/20 p-6 min-h-[500px] overflow-hidden">
+          <div className="bg-surface-container/70 backdrop-blur-2xl rounded-xl shadow-[0_20px_50px_rgba(0,107,44,0.12)] border border-primary/20 p-6 min-h-[500px] overflow-hidden">
             <Outlet />
           </div>
         </main>

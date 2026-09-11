@@ -29,7 +29,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
 
   if (isFeatured && isLarge) {
     return (
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant hover:border-primary transition-colors overflow-hidden flex flex-row h-full">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant hover:border-primary transition-colors overflow-hidden flex flex-col md:flex-row h-full">
         <div className="relative w-full md:w-5/12 aspect-[4/3] md:aspect-auto">
           <img 
             src={getImageUrl(campaign.image_url)} 
@@ -37,7 +37,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
             className="w-full h-full object-cover"
             onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80"; }}
           />
-          <div className="absolute top-4 left-4 flex gap-2">
+          <div className="absolute top-4 left-4 flex flex-col sm:flex-row gap-2 pr-4">
             <div className="bg-surface-container-lowest/95 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-outline-variant/30">
                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
@@ -54,7 +54,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
         </div>
         
         <div className="p-6 lg:p-8 flex flex-col flex-grow w-full md:w-7/12">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-wrap justify-between items-start sm:items-center gap-2 mb-4">
              <div className="bg-surface-container px-3 py-1 rounded-full text-xs font-bold text-primary uppercase tracking-wider">
                 {campaign.category?.name || 'Umum'}
              </div>
@@ -77,12 +77,12 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
           </div>
 
           <div className="mt-auto bg-surface-container-lowest border border-outline-variant rounded-lg p-5">
-             <div className="flex justify-between items-end mb-3">
+             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 mb-3">
                 <div>
                   <span className="text-xs text-outline block mb-1 uppercase tracking-wider font-bold">Terkumpul</span>
                   <span className="font-bold font-mono text-xl text-primary">{formatCurrency(campaign.collected_amount)}</span>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <span className="text-xs text-outline block mb-1 uppercase tracking-wider font-bold">Target {formatCurrency(campaign.target_amount)}</span>
                   <span className="font-bold font-mono text-xl text-on-surface">{Math.round(progress)}%</span>
                 </div>
@@ -95,7 +95,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
                ></div>
              </div>
 
-             <div className="flex justify-between items-center mb-5 text-xs font-bold text-outline">
+             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-5 text-xs font-bold text-outline">
                 <span><Users className="w-3.5 h-3.5 inline mr-1" /> {donorCount.toLocaleString('id-ID')} Donatur</span>
                 <span className="text-primary">Status: {campaign.status === 'ACTIVE' ? 'Aktif' : campaign.status}</span>
              </div>
@@ -126,8 +126,8 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80"; }}
         />
-        <div className="absolute top-3 left-3 flex gap-2">
-           <div className="bg-surface-container-lowest/95 backdrop-blur px-2.5 py-1 rounded-full text-xs font-bold text-on-surface-variant uppercase tracking-wider shadow-sm border border-outline-variant/20">
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+           <div className="bg-surface-container-lowest/95 backdrop-blur px-2.5 py-1 rounded-full text-xs font-bold text-on-surface-variant uppercase tracking-wider shadow-sm border border-outline-variant/20 w-max">
              {campaign.category?.name || 'Umum'}
            </div>
         </div>
@@ -151,7 +151,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
         </p>
         
         <div className="mt-auto">
-           <div className="flex justify-between items-end mb-2">
+           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-1 mb-2">
              <span className="font-bold font-mono text-base text-primary">{formatCurrency(campaign.collected_amount)}</span>
              <span className="text-xs text-outline uppercase font-bold tracking-wider">Target {formatCurrency(campaign.target_amount)}</span>
            </div>
@@ -163,7 +163,7 @@ const CampaignListCard = ({ campaign, isFeatured = false, isLarge = false }) => 
              ></div>
            </div>
 
-           <div className="flex justify-between items-center text-xs font-bold text-outline mb-5">
+           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 text-xs font-bold text-outline mb-5">
              <span className="text-on-surface">{Math.round(progress)}% Terkumpul</span>
              <span>{donorCount.toLocaleString('id-ID')} Donatur</span>
            </div>

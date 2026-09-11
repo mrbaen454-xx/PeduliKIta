@@ -18,11 +18,8 @@ const Login = () => {
   const message = location.state?.message;
 
   useEffect(() => {
-    const meta = document.querySelector('meta[name="viewport"]');
-    if (meta) meta.content = 'width=device-width, initial-scale=1.0';
-    return () => {
-      if (meta) meta.content = 'width=1280';
-    };
+    // Removed the manual viewport scale override as it breaks responsiveness 
+    // globally when unmounting.
   }, []);
 
   const handleChange = (e) => {
@@ -57,14 +54,13 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-100px)] bg-background flex p-4 md:p-8 lg:p-12">
-      <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row rounded-3xl overflow-hidden bg-[var(--color-surface-container)]/70 backdrop-blur-2xl border border-[var(--color-primary)]/20 shadow-[0_20px_50px_rgba(0,107,44,0.12)]">
+    <div className="min-h-[calc(100vh-100px)] bg-background flex p-2 sm:p-4 md:p-8 lg:p-12">
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row rounded-2xl sm:rounded-3xl overflow-hidden bg-surface-container/70 backdrop-blur-2xl border border-primary/20 shadow-[0_20px_50px_rgba(0,107,44,0.12)]">
       
       {/* LEFT COLUMN: Visual & Branding */}
       <div className="hidden lg:flex w-full lg:w-1/2 flex-col justify-between p-10 xl:p-16 relative bg-surface-container-low/40">
         <div>
           <div className="inline-flex items-center gap-1.5 bg-primary-fixed text-primary px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
             Akses Masuk Platform Terverifikasi
           </div>
           
@@ -110,8 +106,8 @@ const Login = () => {
       </div>
 
       {/* RIGHT COLUMN: Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 xl:p-20 relative overflow-y-auto scrollbar-hide">
-        <div className="w-full max-w-[420px] bg-surface-container-lowest/90 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-outline-variant/30">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-12 xl:p-20 relative overflow-y-auto scrollbar-hide py-8">
+        <div className="w-full max-w-[420px] bg-surface-container-lowest/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-outline-variant/30">
           <h2 className="text-headline-md font-bold text-on-surface mb-2 tracking-tight">Masuk ke Akun</h2>
           <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
             Gunakan alamat email dan kata sandi yang terdaftar di PeduliKita.

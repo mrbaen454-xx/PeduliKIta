@@ -16,6 +16,7 @@ const getById = async (req, res) => {
     if (!category) return errorResponse(res, 'Kategori tidak ditemukan', null, 404);
     return successResponse(res, 'Berhasil mengambil kategori', category);
   } catch (error) {
+    console.error('getById Error:', error);
     return errorResponse(res, 'Server error', null, 500);
   }
 };

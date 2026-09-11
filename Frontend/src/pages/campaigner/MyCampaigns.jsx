@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import campaignService from '../../services/campaignService';
 import { Loading, ErrorMessage, EmptyState } from '../../components/common/UIStates';
 import { Eye, Trash2, XCircle, FileText } from 'lucide-react';
+import ConfirmModal from '../../components/common/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
 
 const MyCampaigns = () => {
@@ -10,6 +11,9 @@ const MyCampaigns = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { showToast } = useToast();
+
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState({ isOpen: false, id: null });
+  const [confirmCloseModal, setConfirmCloseModal] = useState({ isOpen: false, id: null });
 
   const fetchMyCampaigns = async () => {
     setLoading(true);
@@ -28,26 +32,22 @@ const MyCampaigns = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus kampanye ini?')) {
-      try {
-        await campaignService.deleteCampaign(id);
-        showToast('Kampanye berhasil dihapus', 'success');
-        fetchMyCampaigns();
-      } catch (err) {
-        showToast(err.response?.data?.message || 'Gagal menghapus kampanye', 'error');
-      }
+    try {
+      await campaignService.deleteCampaign(id);
+      showToast('Kampanye berhasil dihapus', 'success');
+      fetchMyCampaigns();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Gagal menghapus kampanye', 'error');
     }
   };
 
   const handleClose = async (id) => {
-    if (window.confirm('Apakah Anda yakin ingin menutup kampanye ini? Donasi tidak akan bisa diterima lagi.')) {
-      try {
-        await campaignService.closeCampaign(id);
-        showToast('Kampanye berhasil ditutup', 'success');
-        fetchMyCampaigns();
-      } catch (err) {
-        showToast(err.response?.data?.message || 'Gagal menutup kampanye', 'error');
-      }
+    try {
+      await campaignService.closeCampaign(id);
+      showToast('Kampanye berhasil ditutup', 'success');
+      fetchMyCampaigns();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Gagal menutup kampanye', 'error');
     }
   };
 
@@ -71,7 +71,7 @@ const MyCampaigns = () => {
 
   return (
     <div className="w-full mx-auto min-h-screen">
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-[var(--color-primary)]/20 p-6 md:p-8">
+      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-primary/20 p-6 md:p-8">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
         <div>
           <h1 className="text-headline-sm font-bold text-on-surface">Kampanye Saya</h1>
@@ -89,9 +89,9 @@ const MyCampaigns = () => {
         <EmptyState message="Anda belum membuat kampanye satupun." />
       ) : (
         <div className="bg-surface-container-lowest border border-primary rounded overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[600px]">
-              <thead>
+          <div>
+            <table className="w-full text-left border-collapse block md:table">
+              <thead className="hidden md:table-header-group">
                 <tr className="bg-surface border-b border-outline-variant text-on-surface-variant text-xs uppercase tracking-wider">
                   <th className="p-4 font-bold w-2/5">Informasi Kampanye</th>
                   <th className="p-4 font-bold">Terkumpul</th>
@@ -99,12 +99,12 @@ const MyCampaigns = () => {
                   <th className="p-4 font-bold text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="block md:table-row-group divide-y divide-outline-variant">
                 {campaigns.map((camp) => (
-                  <tr key={camp.id} className="hover:bg-surface/50 transition-colors">
-                    <td className="p-4">
+                  <tr key={camp.id} className="block md:table-row p-4 md:p-0 hover:bg-surface/50 transition-colors">
+                    <td className="block md:table-cell py-1 md:p-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-12 bg-surface-container rounded overflow-hidden flex-shrink-0 border border-outline-variant">
+                        <div className="w-16 h-12 bg-surface-container rounded overflow-hidden flex-shrink-0 border border-outline-variant hidden sm:block">
                           {camp.image_url ? (
                             <img src={camp.image_url.startsWith('http') ? camp.image_url : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${camp.image_url}`} alt={camp.title} className="w-full h-full object-cover" />
                           ) : (
@@ -117,27 +117,29 @@ const MyCampaigns = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="p-4">
+                    <td className="block md:table-cell py-1 md:p-4">
+                      <span className="md:hidden text-xs font-bold block mb-1 text-on-surface-variant">Terkumpul</span>
                       <p className="font-bold text-primary">{formatCurrency(camp.collected_amount)}</p>
                       <p className="text-xs text-on-surface-variant mt-1 font-medium">
                         {Math.round(Math.min(((camp.collected_amount || 0) / (camp.target_amount || 1)) * 100, 100))}% tercapai
                       </p>
                     </td>
-                    <td className="p-4">
+                    <td className="block md:table-cell py-1 md:p-4 mt-2 md:mt-0">
+                      <span className="md:hidden text-xs font-bold block mb-1 text-on-surface-variant">Status</span>
                       {getStatusBadge(camp.status)}
                     </td>
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-1.5">
+                    <td className="block md:table-cell py-1 md:p-4 text-left md:text-right mt-3 md:mt-0 pt-3 md:pt-4 border-t border-outline-variant/30 md:border-t-0">
+                      <div className="flex justify-start md:justify-end gap-1.5">
                         <Link to={`/campaigner/campaigns/${camp.id}`} className="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded transition-colors" title="Kelola Laporan & Kabar">
                           <FileText size={18} />
                         </Link>
 
                         {camp.status === 'ACTIVE' && (
-                          <button onClick={() => handleClose(camp.id)} className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Tutup Kampanye">
+                          <button onClick={() => setConfirmCloseModal({ isOpen: true, id: camp.id })} className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Tutup Kampanye">
                             <XCircle size={18} />
                           </button>
                         )}
-                        <button onClick={() => handleDelete(camp.id)} className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Hapus">
+                        <button onClick={() => setConfirmDeleteModal({ isOpen: true, id: camp.id })} className="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Hapus">
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -149,6 +151,28 @@ const MyCampaigns = () => {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={confirmDeleteModal.isOpen}
+        title="Hapus Kampanye"
+        message="Apakah Anda yakin ingin menghapus kampanye ini? Data yang sudah dihapus tidak dapat dikembalikan."
+        confirmText="Ya, Hapus"
+        cancelText="Batal"
+        isDestructive={true}
+        onConfirm={() => handleDelete(confirmDeleteModal.id)}
+        onCancel={() => setConfirmDeleteModal({ isOpen: false, id: null })}
+      />
+
+      <ConfirmModal
+        isOpen={confirmCloseModal.isOpen}
+        title="Tutup Kampanye"
+        message="Apakah Anda yakin ingin menutup kampanye ini? Donasi tidak akan bisa diterima lagi."
+        confirmText="Ya, Tutup"
+        cancelText="Batal"
+        isDestructive={true}
+        onConfirm={() => handleClose(confirmCloseModal.id)}
+        onCancel={() => setConfirmCloseModal({ isOpen: false, id: null })}
+      />
 
       </div>
     </div>

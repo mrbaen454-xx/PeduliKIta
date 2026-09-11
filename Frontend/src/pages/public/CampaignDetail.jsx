@@ -109,7 +109,6 @@ const CampaignDetail = () => {
                   {campaign.category?.name || 'Umum'}
                 </div>
                 <div className="flex items-center gap-1.5 bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
                   {statusDisplay}
                 </div>
               </div>
@@ -257,7 +256,6 @@ const CampaignDetail = () => {
               <div className="flex items-center justify-between mb-6 pt-2">
                 <span className="text-xs font-bold tracking-wider text-outline uppercase">Status Kampanye</span>
                 <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${statusDisplay === 'ACTIVE' ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-surface-container-high text-on-surface-variant'}`}>
-                  {statusDisplay === 'ACTIVE' && <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>}
                   {statusDisplay}
                 </div>
               </div>

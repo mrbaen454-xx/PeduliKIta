@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { ShieldCheck, Lock, Eye, EyeOff, AtSign, User, Users, CheckCircle2, ChevronDown } from 'lucide-react';
+import authService from '../../services/authService';
+import { ShieldCheck, Lock, Eye, EyeOff, AtSign, User, Users, CheckCircle2 } from 'lucide-react';
+import ModernSelect from '../../components/common/ModernSelect';
 
 const Register = () => {
   const { register } = useAuth();
@@ -19,11 +21,8 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const meta = document.querySelector('meta[name="viewport"]');
-    if (meta) meta.content = 'width=device-width, initial-scale=1.0';
-    return () => {
-      if (meta) meta.content = 'width=1280';
-    };
+    // Removed the manual viewport scale override as it breaks responsiveness 
+    // globally when unmounting.
   }, []);
 
   const handleChange = (e) => {
@@ -35,7 +34,7 @@ const Register = () => {
     setLoading(true);
     
     try {
-      await register(formData);
+      await authService.register(formData);
       showToast('Registrasi berhasil! Silakan masuk ke akun Anda.', 'success');
       navigate('/login', { state: { message: 'Registrasi berhasil! Silakan masuk ke akun Anda.' } });
     } catch (err) {
@@ -46,12 +45,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-100px)] bg-background flex p-4 md:p-8 lg:p-12">
-      <div className="w-full max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row rounded-3xl overflow-hidden bg-[var(--color-surface-container)]/70 backdrop-blur-2xl border border-[var(--color-primary)]/20 shadow-[0_20px_50px_rgba(0,107,44,0.12)]">
+    <div className="min-h-[calc(100vh-100px)] bg-background flex p-2 sm:p-4 md:p-8 lg:p-12">
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row rounded-2xl sm:rounded-3xl overflow-hidden bg-surface-container/70 backdrop-blur-2xl border border-primary/20 shadow-[0_20px_50px_rgba(0,107,44,0.12)]">
       
       {/* LEFT COLUMN: Form (Mirrored for distinction) */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 xl:p-20 relative overflow-y-auto scrollbar-hide">
-        <div className="w-full max-w-[420px] bg-surface-container-lowest/90 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-outline-variant/30">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-12 xl:p-20 relative overflow-y-auto scrollbar-hide py-8">
+        <div className="w-full max-w-[420px] bg-surface-container-lowest/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-outline-variant/30">
           <h2 className="text-headline-md font-bold text-on-surface mb-2 tracking-tight">Daftar Akun Baru</h2>
           <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
             Bergabung dengan PeduliKita dan mulailah aksi nyata untuk kebaikan bersama.
@@ -98,19 +97,17 @@ const Register = () => {
               <label className="block text-xs font-bold text-on-surface uppercase tracking-wider mb-2">
                 Peran Pengguna <span className="text-primary">*</span>
               </label>
-              <div className="relative flex items-center">
-                <div className="absolute left-4 w-5 h-5 text-outline flex items-center justify-center border-2 border-current rounded-full text-xs font-bold">R</div>
-                <select
+              <div className="relative">
+                <ModernSelect
+                  options={[
+                    { value: 'DONOR', label: 'Donatur (Memberi Bantuan)' },
+                    { value: 'CAMPAIGNER', label: 'Penggalang Dana (Membuat Kampanye)' }
+                  ]}
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-4 py-3.5 bg-surface-container-lowest border border-outline-variant rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm transition-all appearance-none cursor-pointer"
-                  required
-                >
-                  <option value="DONOR">Donatur (Memberi Bantuan)</option>
-                  <option value="CAMPAIGNER">Penggalang Dana (Membuat Kampanye)</option>
-                </select>
-                <ChevronDown className="w-4 h-4 absolute right-4 text-outline pointer-events-none" />
+                  icon={Users}
+                />
               </div>
             </div>
 
@@ -169,7 +166,6 @@ const Register = () => {
       <div className="hidden lg:flex w-full lg:w-1/2 flex-col justify-between p-10 xl:p-16 relative bg-surface-container-low/40 border-l border-white/50">
         <div>
           <div className="inline-flex items-center gap-1.5 bg-primary-fixed text-primary px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
             Akses Masuk Platform Terverifikasi
           </div>
           

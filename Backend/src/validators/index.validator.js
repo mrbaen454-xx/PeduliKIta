@@ -36,4 +36,10 @@ const donationSchema = Joi.object({
   isAnonymous: Joi.boolean().optional().default(false)
 });
 
-module.exports = { registerSchema, loginSchema, campaignSchema, donationSchema };
+const categorySchema = Joi.object({
+  name: Joi.string().min(3).required(),
+  description: Joi.string().allow('', null).optional(),
+  status: Joi.string().valid('ACTIVE', 'INACTIVE').optional()
+});
+
+module.exports = { registerSchema, loginSchema, campaignSchema, donationSchema, categorySchema };

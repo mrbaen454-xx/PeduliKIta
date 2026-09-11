@@ -7,6 +7,7 @@ const create = async (req, res) => {
     const campaign = await campaignService.createCampaign(req.user.id, req.body, imageUrl);
     return successResponse(res, 'Berhasil membuat campaign', campaign, 201);
   } catch (error) {
+    console.error('[Campaign Create Error]:', error);
     return errorResponse(res, 'Gagal membuat campaign', null, 400);
   }
 };

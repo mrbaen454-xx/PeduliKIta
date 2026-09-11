@@ -18,7 +18,7 @@ const { errorHandler, notFoundHandler } = require('./middleware/error.middleware
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.FRONTEND_URL || '*' }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
